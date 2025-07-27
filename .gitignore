@@ -1,0 +1,45 @@
+# Build Folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# MSTest Report Output
+*.html
+*.xml
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+project.lock.json
+project.assets.json
+
+# Rider/JetBrains
+.idea/
+
+# dotnet-generated files
+*.dbmdl
+*.bak
+*.orig
+
+# Logs
+*.log
+
+
+# OS-specific
+.DS_Store
+Thumbs.db
