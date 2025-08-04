@@ -14,7 +14,7 @@ To run this project locally, you will need:
 
 ### Terminal Commands to run Test
 
-Before run test, you need to set BASE_URL environemnt matched your test server url, otherwise it will use default http://localhost:5089
+Before run test, you need to set BASE_URL environemnt matched your running test server , otherwise it will use default http://localhost:5005
 The value of BASE_URL format should be protocol://hostname:port, notice that there is no slash in the ending. 
 
 - Restore the dependencies using `dotnet restore`
@@ -31,6 +31,10 @@ The value of BASE_URL format should be protocol://hostname:port, notice that the
 
 ## License
 
-[MIT] See the details in LICENSE file
+[MIT](https://github.com/Sunny1861/api_auto_demo/blob/main/LICENSE)
+
+## Trouble shooting
+
+If you open this project directly in vs code IDE, it may automatically create a solutuon file for you. That mean .csproj file and .sln in same folder. just run `dotnet test`, error will happen "error MSB1011: Specify which project or solution file to use because this folder contains more than one project or solution file".  You need to special the project, using dotnet CLI `dotnet test WebAPIDemo.Tests.csproj` to run your test project
 
 

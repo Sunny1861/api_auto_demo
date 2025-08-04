@@ -1,5 +1,5 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using System.Text.Json;
+using System.Text;
 
 namespace WebAPIDemo.Tests.Common.Base
 {
@@ -7,19 +7,23 @@ namespace WebAPIDemo.Tests.Common.Base
     public class BaseTest
     {
         // Static property to store the base URL
-        protected static string? BaseUrl;
+        protected static HttpClient Client { get; private set; } = null!;
 
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext { get; set; } = null!;
 
-        // This method runs once before any test in the assembly
+        protected static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
+         {
+             PropertyNameCaseInsensitive = true
+         };
+
         [AssemblyInitialize]
-        public static void AssemblyInit(TestContext context)
+        public static void Init(TestContext context)
         {
-            // Retrieve the base URL from an environment variable or set a default value
-            BaseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "http://localhost:5089";
-
-            // Log the base URL to verify (optional)
-            Console.WriteLine($"Base URL for the tests is: {BaseUrl}");
+            string baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "http://localhost:5005";
+            Client = new HttpClient
+            {
+                BaseAddress = new Uri(baseUrl) // Update if needed
+            };
         }
 
         [TestInitialize]
@@ -31,7 +35,35 @@ namespace WebAPIDemo.Tests.Common.Base
         [TestCleanup]
         public void TestEnd()
         {
+            // TODO: Take meanful inforation if test fail
             Console.WriteLine($"[END] Test: {TestContext.TestName} at {DateTime.Now}");
+        }
+        
+        protected async Task<HttpResponseMessage> SafeSendAsync(Func<Task<HttpResponseMessage>> action, string operation)
+        {
+            try
+            {
+                var response = await action();
+                Console.WriteLine($"[{operation}] {response.StatusCode}");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[{operation}] Exception: {ex.Message}");
+                throw;
+            }
+        }
+
+        protected StringContent AsStringContent(object obj)
+        {
+            var json = JsonSerializer.Serialize(obj);
+            return new StringContent(json, Encoding.UTF8, "application/json");
+        }
+
+        protected async Task<T?> DeserializeJsonAsync<T>(HttpContent content)
+        {
+            var str = await content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<T>(str, JsonOptions);
         }
 
         //TODO: More common test setup will add
