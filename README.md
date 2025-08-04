@@ -28,6 +28,9 @@ The value of BASE_URL format should be protocol://hostname:port, notice that the
 - Microsoft.NET.Test.Sdk      17.12.0      
 - MSTest                      3.6.4            
 
+## CI Integration
+
+There is a demo ci integration on this proj, any commit in this project on branch main will run npx playwright test --project=chromium --grep "Demo custom fixture", more detail .github/workflows/playwright.yml CI check on actions tab
 
 ## License
 

@@ -6,7 +6,7 @@ namespace WebAPIDemo.Tests.Controller
 {
 
     [TestClass]
-    public class TodoItemsApiTests : TodoItemBaseTests
+    public class ToDoItemControllerTests : TodoItemBaseTests
     {
         [TestMethod]
         public async Task GetAll_ReturnsSuccessAndList()
